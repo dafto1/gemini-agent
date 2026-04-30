@@ -1,7 +1,5 @@
-# calculator/pkg/calculator.py
-
 class Calculator:
-    def __init__(self):
+    def __init__(self):          # ← was: def init(self)
         self.operators = {
             "+": lambda a, b: a + b,
             "-": lambda a, b: a - b,
@@ -15,13 +13,19 @@ class Calculator:
             "/": 2,
         }
 
-    def evaluate(self, expression):
-        if not expression or expression.isspace():
-            return None
-        tokens = expression.strip().split()
-        return self._evaluate_infix(tokens)
+    def _apply_operator(self, operators, values):   # ← was: def applyoperator(...)
+        if not operators:
+            return
 
-    def _evaluate_infix(self, tokens):
+        operator = operators.pop()
+        if len(values) < 2:
+            raise ValueError(f"not enough operands for operator {operator}")
+
+        b = values.pop()
+        a = values.pop()
+        values.append(self.operators[operator](a, b))
+
+    def _evaluate_infix(self, tokens):              # ← was: def evaluateinfix(...)
         values = []
         operators = []
 
@@ -34,6 +38,7 @@ class Calculator:
                 ):
                     self._apply_operator(operators, values)
                 operators.append(token)
+
             else:
                 try:
                     values.append(float(token))
@@ -48,14 +53,8 @@ class Calculator:
 
         return values[0]
 
-    def _apply_operator(self, operators, values):
-        if not operators:
-            return
-
-        operator = operators.pop()
-        if len(values) < 2:
-            raise ValueError(f"not enough operands for operator {operator}")
-
-        b = values.pop()
-        a = values.pop()
-        values.append(self.operators[operator](a, b))
+    def evaluate(self, expression):
+        if not expression or expression.isspace():
+            return None
+        tokens = expression.strip().split()
+        return self._evaluate_infix(tokens)

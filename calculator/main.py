@@ -1,7 +1,8 @@
+# main.py
 import sys
 from pkg.calculator import Calculator
 from pkg.render import format_json_output
-from functions.get_files_info import get_files_info 
+
 
 def main():
     calculator = Calculator()
@@ -22,3 +23,6 @@ def main():
     except Exception as e:
         print(f"Error: {e}")
 
+
+if __name__ == "__main__":
+    main()
