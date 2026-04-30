@@ -1,6 +1,6 @@
 import os  
 
-def get_files_info(working_directory , directory = None) : 
+def get_files_info(working_directory : str , directory = ".") : 
     abs_working_dir =  os.path.abspath(working_directory)  
     abs_directory = " " ; 
     if directory is None : 
@@ -9,7 +9,7 @@ def get_files_info(working_directory , directory = None) :
         abs_directory = os.path.abspath(os.path.join(working_directory , directory)) 
     
     if not abs_directory.startswith(abs_working_dir) : 
-        return f"Error : {directory} is not a directory" 
+        return f"Error : {directory} is not in the working directory" 
 
     contents = os.listdir(abs_directory) 
     final_response = " " ; 
